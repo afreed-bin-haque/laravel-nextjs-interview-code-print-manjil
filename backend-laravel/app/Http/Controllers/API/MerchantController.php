@@ -48,6 +48,12 @@ class MerchantController extends Controller
             $save_Merchant->shop_password = Hash::make($shop_password);
             $save_Merchant->save();
 
+            return response()->json([
+                "status" => true,
+                "signal" => "no",
+                "msg" => "Merchant registered successfully"
+            ],200);
+
         }catch(Exception $e){
             $get_message = $e->getMessage();
             $get_line = $e->getLine();
