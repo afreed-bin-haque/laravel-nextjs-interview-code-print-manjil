@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('merchants', function (Blueprint $table) {
             $table->id();
+            $table->string("merchant_sl")->nullable()->index();
+            $table->string("owner_name")->nullable();
+            $table->string("owner_email")->unique()->index();
+            $table->string("shop_name")->nullable();
+            $table->string("shop_password")->nullable();
             $table->timestamps();
         });
     }

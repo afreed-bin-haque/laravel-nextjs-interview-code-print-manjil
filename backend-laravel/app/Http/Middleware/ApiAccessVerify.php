@@ -16,8 +16,16 @@ class ApiAccessVerify
      */
     public function handle(Request $req, Closure $next): Response
     {
+        $provided_token = $req->header('f-token');
         $approved_token = Config::get('SystemAccess.api-token');
-        echo "Middleware Mounted toke: ".$approved_token;
-        return $next($req);
+        if($provided_token === $approved_token){
+            return $next($req);
+        }
+        return response()->json([
+            "status" => false,
+            "signal" => "Access Forbidden",
+            "msg" => "You are not allowed to Access"
+        ],403);
+        
     }
 }
