@@ -7,7 +7,6 @@ export async function POST(req) {
     const url = appConfig.url;
     const token = appConfig.token;
 
-    console.log({ url, token });
     const body = await req.json();
     const { data } = await axios.post(`${url}/merchant/register`, body, {
       headers: { "f-token": token },

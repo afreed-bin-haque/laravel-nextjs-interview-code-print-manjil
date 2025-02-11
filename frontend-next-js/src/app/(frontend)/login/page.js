@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const page = () => {
@@ -13,6 +14,7 @@ const page = () => {
   const handleChange = (e) => {
     SetFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const router = useRouter();
   const handleSubmitAdmin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -38,10 +40,10 @@ const page = () => {
     setMessage("");
     try {
       const { data } = await axios.post("/api/merchant-login", formData);
-      console.log("merchant", data);
-      if (data?.status) {
-        console.log(data);
+      if (data?.success) {
         setLoading(false);
+        router.refresh();
+        router.push("/merchant/dashboard");
       } else {
         setLoading(false);
         setMessage(data?.message);
@@ -70,7 +72,7 @@ const page = () => {
             />
           </label>
 
-          <label class="input input-bordered flex items-center gap-2">
+          <label className="input input-bordered flex items-center gap-2">
             Shop password
             <input
               type="password"
@@ -86,14 +88,16 @@ const page = () => {
             <button
               className="btn btn-primary btn-wide"
               onClick={handleSubmitAdmin}
+              disabled={loading}
             >
-              Admin
+              {loading ? "Please Wait..." : "Admin Login"}
             </button>
             <button
               className="btn btn-primary btn-wide"
               onClick={handleSubmitMerchant}
+              disabled={loading}
             >
-              merchant
+              {loading ? "Processing..." : "Merchant Login"}
             </button>
           </div>
         </div>
